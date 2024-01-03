@@ -35,6 +35,12 @@ Task Manager with REST API
 ## Configuration
 
 
+Import three csv file =
+```
+task.csv
+task-image.csv
+user.csv
+```
 
 Apply database migrations:
 
