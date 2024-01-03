@@ -10,7 +10,7 @@ PRIORITY_CHOICES = (
 
 
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True)
     title = models.CharField(max_length=200)
     description = models.TextField(max_length=500, blank=True, null=True)
     due_date = models.DateField()
@@ -18,7 +18,7 @@ class Task(models.Model):
                                 choices=PRIORITY_CHOICES,
                                 default="low")
     complete = models.BooleanField(default=False)
-    creation_time = models.DateTimeField(auto_now=True)
+    creation_time = models.DateTimeField(blank=True,null=True)
     last_update = models.DateTimeField(auto_now=True)
 
 
