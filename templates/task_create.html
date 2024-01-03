@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container mt-5">
+    <div class="row ">
+
+        <div class="col-md-3">
+        </div>
+
+        <div class="col-md-6">
+
+            <h3 style="text-align: center">Create Task</h3>
+
+
+            <form class="forms" action="{% url 'createTask'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <input type="text" name="title" class="form-control mt-3" placeholder="Title" required>
+                <input type="text" name="description" class="form-control mt-3" placeholder="Description">
+                <!--                <input type="text" name="priority" class="form-control mt-3" placeholder="Priority">-->
+                <select name="priority" class="form-select" required>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                </select>
+                <input type="date" name="due_date" class="form-control mt-3" placeholder="Due date">
+
+
+                <input class="m-1" name="images" type="file" multiple>
+
+                <button type="submit" class="btn btn-primary mt-3">Register</button>
+
+            </form>
+
+
+            <div class="">
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <h6> {{message}} </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-md-3">
+
+</div>
+
+
+{% endblock %}

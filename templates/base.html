@@ -15,6 +15,55 @@
 
 <body>
 
+<div class="menu container">
+    <nav class="navbar navbar-expand-lg navbar-light box-shadow mb-1">
+        <div class="container">
+            <a class="navbar-brand" href="/">Task Manager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'createTask' %}">Create Task</a>
+                    </li>
+
+
+                </ul>
+
+
+                <ul class="navbar-nav ms-auto">
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="btn m-1 menubutton" href="#">{{ user.username }}</a>
+                        </li>
+                        <li class="nav-item mb-1">
+                            <a class="btn  m-1  menubutton" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="btn m-1 menubutton" href="{% url 'login' %}">Sign In</a>
+                        </li>
+                        <li class="nav-item mb-1">
+                            <a class="btn  m-1  menubutton" aria-current="page" href="{% url 'register' %}">Sign
+                                Up</a>
+                        </li>
+
+                    {% endif %}
+
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</div>
+</div>
+
+
+
 {% block content %}
 
 {% endblock %}

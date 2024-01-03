@@ -2,6 +2,33 @@
 
 {% block content %}
 
+<div class="container">
+    <div class="row">
+        {%for task in tasks%}
+        <div class="col-md-4">
 
+            <h4>{{task.title}}</h4>
+            <p>{{task.priority}}</p>
+            <p>{{task.due_date}}</p>
+            <p>Completed {{task.complete}}</p>
+            <p>Created at {{task.creation_time}}</p>
+            <p>Updated at {{task.last_update}}</p>
+            <p>{{task.description}}</p>
+
+
+            <a href="{% url 'editTask' task.id %}">Edit</a>
+            <a href="{% url 'deleteTask' task.id %}">Delete</a>
+
+
+            {%for image in images%}
+            {% if image.task == task %}
+            <img style="height: 100px;width: 100px" src="{{ image.images.url }}">
+            {% endif %}
+            {% endfor %}
+
+        </div>
+        {%endfor%}
+    </div>
+</div>
 
 {% endblock %}

@@ -1,12 +1,16 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
+from .models import Task, TaskImages
 
 
 # Create your views here.
-
+@login_required(login_url='login')
 def home(request):
-    return render(request, 'homepage.html')
+    tasks = Task.objects.filter(user=request.user)
+    images = TaskImages.objects.all()
+    return render(request, 'homepage.html', {'tasks': tasks, 'images': images})
 
 
 def login(request):
@@ -50,3 +54,46 @@ def register(request):
         messages.info(request, 'Can not create')
 
     return render(request, 'register.html')
+
+
+@login_required(login_url='login')
+def createTask(request):
+    if request.method == "POST":
+        files = request.FILES.getlist('images')
+        title = request.POST['title']
+        description = request.POST['description']
+        priority = request.POST['priority']
+        due_date = request.POST['due_date']
+
+        task = Task.objects.create(user=request.user, title=title, description=description, priority=priority,
+                                   due_date=due_date)
+        for f in files:
+            TaskImages.objects.create(task=task, images=f)
+
+        return redirect('home')
+
+    return render(request, 'task_create.html')
+
+
+def editTask(request, id):
+    if request.method == "POST":
+        title = request.POST['title']
+        description = request.POST['description']
+        priority = request.POST['priority']
+        due_date = request.POST['due_date']
+        task = Task.objects.get(id=id)
+        task.title = title
+        task.description = description
+        task.priority = priority
+        task.due_date = due_date
+        task.save()
+        return redirect('home')
+
+    task = Task.objects.get(id=id)
+    return render(request, 'task_edit.html', {'task': task})
+
+
+def deleteTask(request, id):
+    task = Task.objects.get(id=id)
+    task.delete()
+    return redirect('home')
